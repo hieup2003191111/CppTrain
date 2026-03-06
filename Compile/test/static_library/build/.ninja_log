@@ -1,0 +1,5 @@
+# ninja log v7
+5	88	7942119648217489	CMakeFiles/math_library.dir/math_library.cpp.obj	565a813018d4536d
+89	328	7942119649086364	libmath_library.a	75952c18cc971ec4
+9	1457	7942119648217489	CMakeFiles/math_program.dir/main.cpp.obj	12c1184d2a14121c
+1464	1609	7942119662825513	math_program.exe	8031dc9ce400e534

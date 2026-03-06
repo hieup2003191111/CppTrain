@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g -Wl,--enable-auto-import CMakeFiles/singleton_basic.dir/singleton_basic.cpp.o -o singleton_basic.exe -Wl,--out-implib,libsingleton_basic.dll.a -Wl,--major-image-version,0,--minor-image-version,0

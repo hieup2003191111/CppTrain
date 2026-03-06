@@ -1,0 +1,95 @@
+# Ví dụ về Ứng dụng sử dụng cả Static và Dynamic Library
+
+Đây là một ví dụ đơn giản về cách tạo và sử dụng cả Static Library và Dynamic Library trong cùng một ứng dụng C++.
+
+## Cấu trúc thư mục
+
+- `math_library.h`: Header file cho static library
+- `math_library.cpp`: Implementation của static library
+- `string_utils.h`: Header file cho dynamic library
+- `string_utils.cpp`: Implementation của dynamic library
+- `main.cpp`: Chương trình chính sử dụng cả hai thư viện
+- `CMakeLists.txt`: File cấu hình CMake
+
+## Cách build và chạy
+
+### Bước 1: Tạo thư mục build
+
+```bash
+mkdir build
+cd build
+```
+
+### Bước 2: Chạy CMake để tạo project files
+
+```bash
+cmake ..
+```
+
+### Bước 3: Build project
+
+```bash
+cmake --build .
+```
+
+Hoặc nếu sử dụng Windows:
+
+```powershell
+cmake --build . --config Release
+```
+
+### Bước 4: Chạy chương trình
+
+```bash
+./combined_program
+```
+
+Hoặc nếu sử dụng Windows:
+
+```powershell
+.\Release\combined_program.exe
+```
+
+## Giải thích
+
+1. CMake sẽ tạo một static library từ file `math_library.cpp` và một dynamic library từ file `string_utils.cpp`
+2. Sau đó, nó sẽ tạo một executable từ file `main.cpp` và link cả hai thư viện
+3. Chương trình sẽ sử dụng các hàm từ cả static library (phép toán số học) và dynamic library (xử lý chuỗi)
+
+## Lưu ý quan trọng
+
+- Trên Windows, đảm bảo rằng file DLL của dynamic library nằm trong cùng thư mục với executable hoặc nằm trong PATH
+- Trên Linux, nếu gặp lỗi "cannot open shared object file", hãy sử dụng `LD_LIBRARY_PATH`:
+  ```bash
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
+  ```
+
+## Kết quả mong đợi
+
+```
+Combined Static and Dynamic Library Example
+===========================================
+
+Using Static Library (Math Operations):
+15 + 3 = 18
+15 - 3 = 12
+15 * 3 = 45
+15 / 3 = 5
+
+Using Dynamic Library (String Operations):
+Original: Hello, World!
+To Upper: HELLO, WORLD!
+To Lower: hello, world!
+
+Splitting: apple,banana,cherry,date
+- apple
+- banana
+- cherry
+- date
+
+Joining words: "This" "is" "a" "test"
+Result: This is a test
+
+Combining Both Libraries:
+THE SUM OF 10 AND 5 IS 15
+```

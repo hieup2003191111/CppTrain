@@ -1,0 +1,6 @@
+# ninja log v7
+9	397	7942129954488304	CMakeFiles/string_program.dir/main.cpp.obj	9b312f71e8da861a
+4	454	7942129954488304	CMakeFiles/string_utils.dir/string_utils.cpp.obj	d6791fb313d0f75e
+454	569	7942129960064025	libstring_utils.dll	297decc054597295
+454	569	7942129960064025	libstring_utils.dll.a	297decc054597295
+570	691	7942129960124132	string_program.exe	d87d03eaec113628

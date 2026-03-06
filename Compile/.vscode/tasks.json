@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build (cmake)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-B",
+                "build",
+                "-DCMAKE_BUILD_TYPE=Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build (make)",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-C",
+                "build"
+            ],
+            "dependsOn": "build (cmake)"
+        }
+    ]
+}

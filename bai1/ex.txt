@@ -1,0 +1,281 @@
+Bài tập 1: Duy trì trạng thái phát lại khi chuyển đổi màn hình
+
+
+Tình huống: Trong ứng dụng nhạc trên xe, người dùng đang nghe bài hát "A" ở
+giây thứ 30. Sau đó, họ chuyển sang màn hình Điều hướng và sau đó quay lại
+màn hình Trình phát đa phương tiện. Ứng dụng phải tiếp tục hiển thị bài hát
+"A" một cách chính xác với thanh thời gian ở giây thứ 30.
+
+
+Vấn đề: Một nhà phát triển đã viết mã cho màn hình Trình phát đa phương tiện như sau.
+Tuy nhiên, mỗi khi người dùng quay lại màn hình này, nó luôn khởi động lại từ
+đầu bài hát đầu tiên trong danh sách phát thay vì ghi nhớ
+trạng thái phát lại hiện tại.
+
+
+C++
+
+
+// Hàm này được gọi mỗi khi màn hình Trình phát đa phương tiện được hiển thị
+
+
+void renderMediaPlayerScreen(Playlist currentPlaylist) {
+
+
+    Song currentSong = currentPlaylist.getSong(0); // Luôn lấy bài hát đầu tiên
+
+
+    int playbackTime = 0; // Luôn đặt lại thời gian về 0
+
+
+    // ... mã để vẽ giao diện người dùng với currentSong và playbackTime
+
+    std::cout << "Đang hiển thị: " << currentSong.title << " lúc " << playbackTime << "s" << std::endl;
+
+}
+
+
+Yêu cầu:
+
+
+1.   Phân tích: Giải thích tại sao các biến currentSong và playbackTime luôn được đặt lại. Vấn đề này liên quan đến khái niệm nào từ "Vòng đời của biến"
+
+
+? 2.   Sửa lỗi: Viết lại đoạn mã ở trên. Bạn phải sử dụng từ khóa static để
+đảm bảo rằng thông tin về bài hát và thời gian phát lại được giữ nguyên giữa các lần hiển thị màn hình. Trạng
+thái chỉ nên được đặt lại khi người dùng chủ động chọn một bài hát mới.
+
+Bài tập 2: Tối ưu hóa
+hiệu suất khi hiển thị danh sách bài hát
+
+
+Tình huống: Ứng dụng cần hiển thị một danh sách phát có thể chứa
+hàng ngàn bài hát trên màn hình. Mỗi bài hát là một đối tượng struct SongMetadata chứa rất nhiều
+thông tin (ID, tiêu đề, nghệ sĩ, album, thời lượng, tốc độ bit, v.v.).
+
+
+Vấn đề: Khi người dùng cuộn qua danh sách, ứng dụng trở nên rất chậm và
+giật lag. Phân tích hiệu năng cho thấy hàm displaySongInList đang tiêu tốn quá
+nhiều CPU và bộ nhớ.
+
+
+C++
+
+
+struct SongMetadata {
+
+    uint64_t songId;
+    char title[128];
+    char artist[128];
+    char album[128];
+
+    // ... và nhiều trường dữ liệu khác
+
+};
+
+// Hàm này được gọi cho mỗi bài hát trong danh sách để hiển thị tên của nó
+
+void displaySongInList(int listPosition,SongMetadata song) { // <-- Vấn đề nằm ở đây
+
+    // Toàn bộ dữ liệu 'bài hát' được sao chép mỗi khi hàm được gọi
+
+    drawText(listPosition, song.title);
+
+}
+
+
+// Vòng lặp chính
+
+for (int i = 0;
+i < playlist.size(); ++i) {
+
+    displaySongInList(i, playlist.getSong(i));
+// Gây ra hiệu suất kém
+}
+
+
+Yêu cầu:
+
+1.   Phân tích: Giải thích tại sao việc truyền SongMetadata vào hàm theo cách này (truyền theo giá trị ) lại gây ra vấn đề hiệu suất nghiêm trọng, đặc biệt là với một cấu trúc lớn.
+
+
+2.   Tối ưu hóa: Sửa đổi khai báo hàm displaySongInList để nó chấp nhận SongMetadata bằng tham chiếu . Đảm bảo rằng hàm
+không thể vô tình sửa đổi dữ liệu bài hát gốc.
+
+
+Bài tập 3: Cập nhật hàng
+đợi "Đang phát"
+
+
+Tình huống: Hệ thống có một con trỏ toàn cục, g_nowPlaying, trỏ đến
+bài hát đang phát. Khi bài hát kết thúc, một hàm advanceToNextSong được gọi để cập nhật
+con trỏ này thành bài hát tiếp theo trong danh sách phát.
+
+
+Vấn đề: Sau khi gọi advanceToNextSong, con trỏ g_nowPlaying không thay đổi chút nào. Bài hát cũ cứ lặp đi lặp lại.
+
+
+C++
+
+
+Song* g_nowPlaying = nullptr; // Con trỏ đến bài hát đang phát
+
+// Hàm này được kỳ vọng sẽ thay đổi g_nowPlaying để trỏ đến bài hát mới
+
+void advanceToNextSong(Song* currentSongPtr, Song* nextSong) {
+
+
+    // Nhà phát triển cho rằng phép gán này sẽ thay đổi con trỏ ban đầu
+    currentSongPtr = nextSong;
+
+
+}
+
+
+// ... trong luồng xử lý chính
+
+g_nowPlaying =&playlist[0];
+
+
+// Giả sử bài hát đầu tiên kết thúc
+
+Song* next =&playlist[1];
+
+advanceToNextSong(g_nowPlaying,next);
+
+
+// VẤN ĐỀ: g_nowPlaying vẫn trỏ đến &playlist[0] sau khi hàm chạy.
+
+Yêu cầu:
+
+
+1.   Phân tích: Dựa trên kiến ​​thức của bạn về "
+Kiểu giá trị & Kiểu tham chiếu" , hãy giải thích tại sao phép gán currentSongPtr = nextSong; bên trong hàm không ảnh hưởng đến con trỏ g_nowPlaying bên ngoài nó. Khi một
+con trỏ được truyền vào một hàm dưới dạng đối số, nó thể hiện loại hành vi nào
+?
+
+2.   Sửa lỗi: Sửa hàm advanceToNextSong để nó có thể sửa đổi con trỏ gốc. Có ít nhất hai
+cách để làm điều này:
+
+· Sử dụng con trỏ đến con trỏ (Song**).
+
+
+· Sử dụng tham chiếu đến con trỏ (Song*&).
+
+Bài tập 4: Quản lý bộ giải mã âm thanh Singleton
+
+
+Kịch bản: Trong ô tô, phần cứng giải mã âm thanh là một tài nguyên hạn chế. Toàn bộ ứng dụng chỉ được phép cóChỉ có duy
+nhất một đối tượng AudioDecoder tồn tại. Một hàm getAudioDecoder() được tạo ra để cung cấp
+quyền truy cập vào đối tượng duy nhất này.
+
+
+Vấn đề: Một nhà phát triển mới đã viết hàm này, nhưng nó gây ra lỗi hệ thống ngay khi cố gắng sử dụng con trỏ mà nó trả về. Lớp
+
+
+C++
+
+
+AudioDecoder {
+
+    // ... triển khai phức tạp
+public:
+    void play() { /* ... */ }
+};
+
+
+AudioDecoder* getAudioDecoder() {
+
+    AudioDecoder decoder_instance; // Biến cục bộ trên ngăn xếp
+
+    return &decoder_instance; // Trả về con trỏ đến một biến cục bộ
+
+}
+
+
+// ... trong hàm main
+
+
+AudioDecoder* myDecoder = getAudioDecoder();
+
+
+myDecoder->play(); // LỖI! Lỗi truy cập bộ nhớ không hợp lệ
+
+Yêu cầu:
+
+1.   Phân tích: Giải thích tại sao con trỏ myDecoder trở thành con trỏ lơ lửng
+. Vấn đề này liên quan trực tiếp như thế nào đến Vòng đời biến của decoder_instance?
+
+
+2.   Thiết kế lại: Viết lại hàm getAudioDecoder() một cách chính xác. Sử dụng biến tĩnh để đảm bảo đối tượng AudioDecoder chỉ được tạo một lần và tồn tại trong suốt
+vòng đời của chương trình, giải quyết hoàn toàn vấn đề.
+
+
+
+Bài tập 5: Đồng bộ
+hóa cài đặt Equalizer giữa các thiết bị
+
+
+Kịch bản: Người dùng có thể tùy chỉnh Equalizer (EQ) trên ứng dụng di động của họ, và
+các cài đặt này phải được gửi qua Bluetooth và áp dụng cho hệ thống âm thanh của xe.
+Các cài đặt EQ được lưu trữ trong một struct.
+
+
+Vấn đề: Dữ liệu được gửi dưới dạng luồng byte (mảng char*). Hệ thống của xe nhận
+mảng byte này và cố gắng chuyển đổi trực tiếp nó thành con trỏ EQSettings*.
+Cách tiếp cận này hoạt động trên một số xe nhưng gây ra việc đọc dữ liệu không chính xác hoặc thậm chí
+gây lỗi trên các mẫu xe khác có kiến ​​trúc CPU khác nhau.
+
+
+C++
+
+
+struct
+EQSettings {
+
+
+    double band1_gain; // 8 byte
+
+
+    int band2_freq; // 4 byte
+
+
+    double band3_gain; // 8 byte
+
+
+    bool is_bass_boost_enabled; // 1 byte
+
+
+};
+
+
+// Phía xe (bộ thu)
+
+void applySettingsFromBluetooth(char* received_bytes) {
+
+    // Truyền trực tiếp - RẤT NGUY HIỂM!
+
+
+    EQSettings* settings = (EQSettings*)received_bytes;
+
+    // Dữ liệu có thể bị đọc sai do
+các vấn đề về "đệm" hoặc "thứ tự byte"
+
+
+updateAudioHardware(settings->band1_gain, settings->is_bass_boost_enabled);
+
+
+}
+
+
+Yêu cầu:
+
+
+1.   Phân tích rủi ro:1. Giải thích tại sao việc ép kiểu con trỏ từ char* sang EQSettings* là một
+thao tác không an toàn và phụ thuộc vào nền tảng. Đề cập đến khái niệm "căn chỉnh dữ liệu" hoặc "
+đệm cấu trúc" trong lời giải thích của bạn. Điều này liên quan như thế nào đến cách các kiểu dữ liệu được biểu diễn trong bộ nhớ?
+
+
+2.   Viết một hàm an toàn: Viết lại hàm applySettingsFromBluetooth mà không sử dụng ép kiểu trực tiếp. Bạn phải đọc từng thành viên của
+cấu trúc từ mảng byte một cách tuần tự và an toàn, đảm bảo nó hoạt động
+chính xác trên tất cả các kiến ​​trúc.

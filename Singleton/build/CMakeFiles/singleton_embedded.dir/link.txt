@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g -Wl,--enable-auto-import CMakeFiles/singleton_embedded.dir/singleton_embedded.cpp.o -o singleton_embedded.exe -Wl,--out-implib,libsingleton_embedded.dll.a -Wl,--major-image-version,0,--minor-image-version,0

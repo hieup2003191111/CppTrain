@@ -1,0 +1,4 @@
+C:/Users/Admin/Downloads/Compile/test/dynamic_library/build/CMakeFiles/string_utils.dir
+C:/Users/Admin/Downloads/Compile/test/dynamic_library/build/CMakeFiles/string_program.dir
+C:/Users/Admin/Downloads/Compile/test/dynamic_library/build/CMakeFiles/edit_cache.dir
+C:/Users/Admin/Downloads/Compile/test/dynamic_library/build/CMakeFiles/rebuild_cache.dir

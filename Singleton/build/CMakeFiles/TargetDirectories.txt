@@ -1,0 +1,4 @@
+/cygdrive/d/Workspaces/C++/EMBEDDED-AUTOSAR/Fundemantal/Singleton/build/CMakeFiles/singleton_basic.dir
+/cygdrive/d/Workspaces/C++/EMBEDDED-AUTOSAR/Fundemantal/Singleton/build/CMakeFiles/singleton_embedded.dir
+/cygdrive/d/Workspaces/C++/EMBEDDED-AUTOSAR/Fundemantal/Singleton/build/CMakeFiles/edit_cache.dir
+/cygdrive/d/Workspaces/C++/EMBEDDED-AUTOSAR/Fundemantal/Singleton/build/CMakeFiles/rebuild_cache.dir

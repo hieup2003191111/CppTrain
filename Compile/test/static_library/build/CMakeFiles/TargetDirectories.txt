@@ -1,0 +1,4 @@
+C:/Users/Admin/Downloads/Compile/test/static_library/build/CMakeFiles/math_library.dir
+C:/Users/Admin/Downloads/Compile/test/static_library/build/CMakeFiles/math_program.dir
+C:/Users/Admin/Downloads/Compile/test/static_library/build/CMakeFiles/edit_cache.dir
+C:/Users/Admin/Downloads/Compile/test/static_library/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+void secretFFTCalculation(); // Cái này chỉ nội bộ thư viện dùng

@@ -1,0 +1,1 @@
+void applyEqualizer(); // Người dùng chỉ thấy cái này

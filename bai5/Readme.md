@@ -18,4 +18,4 @@ dynamic: g++ main.cpp -L. -lflac -o music_app_dynamic
 3.
 DLL Hell:
 khi 2 ứng dung A và B cùng dùng chung 1 file thư viện .so.
-Ứng dụng A cập nhật phiên bản mới của thư viện ,nhưng B không tương thích và lập tức bị lỗi.
+Ứng dụng A cập nhật phiên bản mới của thư viện ,nhưng B không tương thích và lập tức bị lỗi.src

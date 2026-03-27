@@ -21,13 +21,11 @@ int main() {
     // --- YÊU CẦU 3: Sử dụng 'using' trong phạm vi hàm ---
     std::cout << "\n--- Su dung 'using' trong ham: ---\n";
     {
-        // Chỉ định nghĩa Manager trong khối lệnh này là DB::Manager
         using DB::Manager; 
         
-        Manager tempDBMgr; // Không cần tiền tố DB:: nữa
+        Manager tempDBMgr; 
         tempDBMgr.display();
     }
-    // Ra khỏi dấu }, 'Manager' sẽ không còn được nhận diện tự động nữa.
 
     return 0;
 }

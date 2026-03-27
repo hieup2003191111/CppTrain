@@ -7,7 +7,6 @@
 // Lớp cơ sở AudioSource
 class AudioSource {
 public:
-    // 1. Phải có ít nhất một hàm ảo để kích hoạt RTTI (Run-Time Type Information)
     // getSourceType() = 0 biến đây thành một lớp trừu tượng (Abstract Class)
     virtual const char* getSourceType() = 0;
 
@@ -36,7 +35,6 @@ public:
         return "Internet Radio Source";
     }
 
-    // 3. Phương thức đặc thù (Unique method) - Chỉ lớp này mới có
     void displayMetadata() {
         std::cout << ">>> [METADATA]: Station: Rock FM | Song: Highway to Hell | Bitrate: 320kbps" << std::endl;
     }
@@ -67,11 +65,10 @@ int main() {
 
         // 4. Kiểm tra kết quả ép kiểu
         if (radioPtr != nullptr) {
-            // Nếu thành công (không phải nullptr), nghĩa là đối tượng này thực sự là InternetRadioSource
             std::cout << "  => Phat hien nguon Internet Radio! Dang truy cap tinh nang rieng..." << std::endl;
             radioPtr->displayMetadata(); // Gọi phương thức đặc thù an toàn
         } else {
-            // Nếu trả về nullptr, nghĩa là đối tượng là kiểu khác (ví dụ: LocalFileSource)
+            // Nếu trả về nullptr, nghĩa là đối tượng là kiểu khác 
             std::cout << "  => Nguon nay khong phai Internet Radio. Bo qua displayMetadata()." << std::endl;
         }
         std::cout << "------------------------------------------" << std::endl;

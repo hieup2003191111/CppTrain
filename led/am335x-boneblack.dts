@@ -18,9 +18,9 @@
 	};
 
 	my_led_blink: sample_led@4804C000 {
-        	compatible = "beagle,my-blink-led"; /* PHẢI khớp với .compatible trong code .c */
-        	reg = <0x4804C000 0x1000>;          /* Địa chỉ vật lý vùng nhớ GPIO1 */
-       		status = "okay";                    /* Kích hoạt node này */
+        	compatible = "beagle,my-blink-led"; 
+        	reg = <0x4804C000 0x1000>;         
+       		status = "okay";                    
     	};
 };
 

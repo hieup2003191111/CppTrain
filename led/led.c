@@ -7,7 +7,7 @@
 #include <linux/slab.h>        
 
 //OFF SET
-#define GPIO_OE_OFFSET           0x134  //đầu ra output
+#define GPIO_OE_OFFSET           0x134  //đầu ra output(0),input(1)
 #define GPIO_SETDATAOUT_OFFSET   0x194   //set bật led
 #define GPIO_CLEARDATAOUT_OFFSET 0x190   //set tắt led
 
@@ -30,14 +30,14 @@ static void led_timer_callback(struct timer_list *t) {
         writel(data->pin_bit, data->base_addr + GPIO_SETDATAOUT_OFFSET);
     }
 
-    /* Đảo trạng thái cho lần sau */
+    //dao trang thai
     data->led_state = !data->led_state;
 
-    /* Tiếp tục hẹn giờ cho 1 giây sau (HZ = 1 giây trong Kernel) */
+    //hen gio cho 1 giay sau
     mod_timer(&data->timer, jiffies + HZ);
 }
 
-/* 4. HÀM KHỞI TẠO (PROBE) - CHẠY KHI NẠP DRIVER */
+//ham probe khoi tao driver
 static int led_probe(struct platform_device *pdev) {
     struct resource *res;
     struct my_led_data *data;
@@ -75,28 +75,25 @@ static int led_probe(struct platform_device *pdev) {
     return 0;
 }
 
-/* 5. HÀM GỠ DRIVER (REMOVE) */
+//go driver
 static int led_remove(struct platform_device *pdev) {
     struct my_led_data *data = platform_get_drvdata(pdev);
-
-    /* Xóa timer để tránh crash hệ thống sau khi gỡ driver */
+    //xoa timer
     del_timer_sync(&data->timer);
-    
-    /* Đảm bảo tắt LED khi rút driver */
+    //tat led    
     writel(data->pin_bit, data->base_addr + GPIO_CLEARDATAOUT_OFFSET);
-
     printk(KERN_INFO "My LED Driver: Da go bo thành công.\n");
     return 0;
 }
 
-/* 6. KHAI BÁO CƠ CHẾ KHỚP DEVICE TREE */
+//khai bao node trong device tree
 static const struct of_device_id led_of_match[] = {
     { .compatible = "beagle,my-blink-led" },
     { },
 };
 MODULE_DEVICE_TABLE(of, led_of_match);
 
-/* 7. ĐỊNH NGHĨA PLATFORM DRIVER */
+//platform driver
 static struct platform_driver my_led_driver = {
     .probe = led_probe,
     .remove = led_remove,
@@ -106,7 +103,7 @@ static struct platform_driver my_led_driver = {
     },
 };
 
-/* Đăng ký driver với Kernel */
+//dang ki driver voi kernel
 module_platform_driver(my_led_driver);
 
 MODULE_LICENSE("GPL");

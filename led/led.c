@@ -57,19 +57,21 @@ static int led_probe(struct platform_device *pdev) {
     data->base_addr = devm_ioremap_resource(&pdev->dev, res);
     if (IS_ERR(data->base_addr)) return PTR_ERR(data->base_addr);
 
-    /* Cấu hình chân LED (Ví dụ chân 30 của cụm GPIO) */
+    //cau hinh chan gpio cua led la 30
     data->pin_bit = (1 << 30); 
     
-    /* Cài đặt hướng là OUTPUT: Đọc thanh ghi OE -> Xóa bit 30 về 0 -> Ghi lại */
+    //doc gia tri thanh ghi OE
     reg_val = readl(data->base_addr + GPIO_OE_OFFSET);
+    //set gia tri ve 0
     reg_val &= ~(data->pin_bit); 
+    //viet lai va ghi gia tri cho thanh ghi OE
     writel(reg_val, data->base_addr + GPIO_OE_OFFSET);
 
-    /* Thiết lập Timer lần đầu */
+    //thiet lap timer lan dau
     timer_setup(&data->timer, led_timer_callback, 0);
     mod_timer(&data->timer, jiffies + HZ);
 
-    /* Lưu dữ liệu vào platform device để dùng khi gỡ driver */
+    //luu du lieu vao platform
     platform_set_drvdata(pdev, data);
 
     return 0;
